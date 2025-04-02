@@ -1,10 +1,10 @@
 package com.teste.seguranca.api.controller;
 
+import com.teste.seguranca.api.model.dto.CategoriaInput;
 import com.teste.seguranca.api.model.response.CategoriaResponse;
 import com.teste.seguranca.domain.service.CategoriaService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import jakarta.validation.Valid;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -18,8 +18,13 @@ public class CategoriaController {
         this.categoriaService = categoriaService;
     }
 
+    @PostMapping
+    public CategoriaResponse save(@RequestBody @Valid CategoriaInput input) {
+        return CategoriaResponse.toModel(categoriaService.save(input.toEntity()));
+    }
+
     @GetMapping
-    public List<CategoriaResponse> save() {
+    public List<CategoriaResponse> findAll() {
         return CategoriaResponse.toCollectionModel(categoriaService.findAll());
     }
 
